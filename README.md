@@ -85,8 +85,14 @@ volumes:
 
 ### Ответ:
 ```
-INSERT INTO public.orders (наименование,цена) 
+test_db=# IINSERT INTO public.orders (наименование,цена) 
   VALUES ('Шоколад',10),('Принтер',3000),('Книга',500),('Монитор',7000),('Гитара',4000);
+INSERT 0 5
+ 
+test_db=# IINSERT INTO public.clients (фамилия,"страна проживания") VALUES ('Иванов Иван Иванович','USA'),('Петров Петр Петрович','Canada'),('Иоганн Себастьян Бах','Japan'),('Ронни Джеймс Дио','Russia'),('Ritchie Blackmore','Russia');
+INSERT 0 5
+
+
 ```
 
 ## Задача 4
