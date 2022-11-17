@@ -71,9 +71,9 @@ test_db=# \d+ clients
               Column               |       Type        | Collation | Nullable |               Default               | Storage  | Stats target | Description
 -----------------------------------+-------------------+-----------+----------+-------------------------------------+----------+--------------+-------------
  id                                | integer           |           | not null | nextval('clients_id_seq'::regclass) | plain    |              |
- фамилия                    | character varying |           |          |                                     | extended |              |
- страна проживания | character varying |           |          |                                     | extended |              |
- заказ                        | integer           |           |          |                                     | plain    |              |
+ фамилия                           | character varying |           |          |                                     | extended |              |
+ страна проживания                 | character varying |           |          |                                     | extended |              |
+ заказ                             | integer           |           |          |                                     | plain    |              |
 Foreign-key constraints:
     "clients_fk" FOREIGN KEY ("заказ") REFERENCES orders(id)
 Access method: heap
@@ -83,8 +83,8 @@ test_db=# \d+ orders
           Column          |       Type        | Collation | Nullable |              Default               | Storage  | Stats target | Description
 --------------------------+-------------------+-----------+----------+------------------------------------+----------+--------------+-------------
  id                       | integer           |           | not null | nextval('orders_id_seq'::regclass) | plain    |              |
- наименование | character varying |           |          |                                    | extended |              |
- цена                 | integer           |           |          |                                    | plain    |              |
+ наименование             | character varying |           |          |                                    | extended |              |
+ цена                     | integer           |           |          |                                    | plain    |              |
 Indexes:
     "orders_pk" PRIMARY KEY, btree (id)
 Referenced by:
