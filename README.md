@@ -94,11 +94,40 @@ Access method: heap
 ```
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
 ```
-
+test_db=# SELECT
+    grantee, table_name, privilege_type
+FROM
+    information_schema.table_privileges
+WHERE
+    grantee in ('test-admin-user','test-simple-user')
+    and table_name in ('orders','clients') order by grantee,table_name;
 ```
 - список пользователей с правами над таблицами test_db
 ```
-
+     grantee      | table_name | privilege_type
+------------------+------------+----------------
+ test-admin-user  | clients    | INSERT
+ test-admin-user  | clients    | SELECT
+ test-admin-user  | clients    | UPDATE
+ test-admin-user  | clients    | DELETE
+ test-admin-user  | clients    | TRUNCATE
+ test-admin-user  | clients    | REFERENCES
+ test-admin-user  | clients    | TRIGGER
+ test-admin-user  | orders     | INSERT
+ test-admin-user  | orders     | SELECT
+ test-admin-user  | orders     | UPDATE
+ test-admin-user  | orders     | DELETE
+ test-admin-user  | orders     | TRUNCATE
+ test-admin-user  | orders     | REFERENCES
+ test-admin-user  | orders     | TRIGGER
+ test-simple-user | clients    | DELETE
+ test-simple-user | clients    | INSERT
+ test-simple-user | clients    | SELECT
+ test-simple-user | clients    | UPDATE
+ test-simple-user | orders     | DELETE
+ test-simple-user | orders     | SELECT
+ test-simple-user | orders     | UPDATE
+ test-simple-user | orders     | INSERT
 ```
 
 
