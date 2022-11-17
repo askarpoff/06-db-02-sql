@@ -252,7 +252,7 @@ test_db=# EXPLAIN SELECT * FROM clients WHERE заказ NOTNULL;
 ```
 root@debian:/home/debian/docker-postgres# docker exec -it 141657eb99f0  /bin/bash
 root@141657eb99f0:/# su - postgres
-postgres@141657eb99f0:~$ pg_dumpall > backup.sql
+postgres@141657eb99f0:~$ pg_dumpall --quote-all-identifiers --rows-per-insert=10 > backup.sql
 postgres@141657eb99f0:~$ exit
 logout
 root@141657eb99f0:/# cp /var/lib/postgresql/backup.sql /var/backups
