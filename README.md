@@ -199,15 +199,44 @@ test_db=# select count(*) from clients;
 Приведите SQL-запросы для выполнения данных операций.
 
 Приведите SQL-запрос для выдачи всех пользователей, которые совершили заказ, а также вывод данного запроса.
- 
-Подсказк - используйте директиву `UPDATE`.
+### Ответ: 
+Подсказка - используйте директиву `UPDATE`.
+```
+test_db=# UPDATE clients SET заказ = (select id FROM orders WHERE наименование = 'Книга') WHERE фамилия = 'Иванов Иван Иванович';
+UPDATE clients SET заказ = (SELECT id FROM orders WHERE наименование = 'Монитор') WHERE фамилия = 'Петров Петр Петрович';
+UPDATE clients SET заказ = (SELECT id FROM orders WHERE наименование = 'Гитара') WHERE фамилия = 'Иоганн Себастьян Бах';
+UPDATE 1
+UPDATE 1
+UPDATE 1
 
+
+test_db=# SELECT * FROM clients WHERE заказ NOTNULL;
+ id |             фамилия             | страна проживания | заказ
+----+----------------------------------------+-----------------------------------+------------
+  4 | Иванов Иван Иванович | USA                               |          3
+  5 | Петров Петр Петрович | Canada                            |          4
+  6 | Иоганн Себастьян Бах | Japan                             |          5
+(3 rows)
+
+```
 ## Задача 5
 
 Получите полную информацию по выполнению запроса выдачи всех пользователей из задачи 4 
 (используя директиву EXPLAIN).
 
 Приведите получившийся результат и объясните что значат полученные значения.
+
+### Ответ:
+```
+test_db=# EXPLAIN SELECT * FROM clients WHERE заказ NOTNULL;
+                        QUERY PLAN
+-----------------------------------------------------------
+ Seq Scan on clients  (cost=0.00..18.10 rows=806 width=72)
+   Filter: ("заказ" IS NOT NULL)
+(2 rows)
+```
+Значения - примерный план выполнения запроса и предположительные затраты процессорного времени, сколько примерно строк, средняя длина строки (на основе статистики)
+Что бы получит точные, нужно выполнить EXPLAIN ANALYZE.
 
 ## Задача 6
 
@@ -220,3 +249,22 @@ test_db=# select count(*) from clients;
 Восстановите БД test_db в новом контейнере.
 
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
+```
+root@debian:/home/debian/docker-postgres# docker exec -it 141657eb99f0  /bin/bash
+root@141657eb99f0:/# su - postgres
+postgres@141657eb99f0:~$ pg_dumpall > backup.sql
+postgres@141657eb99f0:~$ exit
+logout
+root@141657eb99f0:/# cp /var/lib/postgresql/backup.sql /var/backups
+root@141657eb99f0:/# exit
+exit
+root@debian:/home/debian/docker-postgres# docker run --rm -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres --mount type=volume,source=docker-postgres_backup,destination=/var/backups postgres:12-bullseye
+7e778942655dd3e45b4cff5b72aae0585883d95b9e5e8756b176aaf9cb6039c5
+root@debian:/home/debian/docker-postgres# docker exec -it 5c151ec6bc9f230   /bin/bash
+root@5c151ec6bc9f:/# exit
+exit
+root@debian:/home/debian/docker-postgres# docker exec -it 7e778942655dd3   /bin/bash
+root@7e778942655d:/# cp /var/backups/backup.sql var/lib/postgresql/
+root@7e778942655d:/# su - postgres
+postgres@7e778942655d:~$ psql < backup.sql
+```
