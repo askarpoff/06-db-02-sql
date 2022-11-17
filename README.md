@@ -92,7 +92,17 @@ INSERT 0 5
 test_db=# IINSERT INTO public.clients (фамилия,"страна проживания") VALUES ('Иванов Иван Иванович','USA'),('Петров Петр Петрович','Canada'),('Иоганн Себастьян Бах','Japan'),('Ронни Джеймс Дио','Russia'),('Ritchie Blackmore','Russia');
 INSERT 0 5
 
+test_db=# select count(*) from orders;
+ count
+-------
+     5
+(1 row)
 
+test_db=# select count(*) from clients;
+ count
+-------
+     5
+(1 row)
 ```
 
 ## Задача 4
