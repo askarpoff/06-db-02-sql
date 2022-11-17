@@ -53,6 +53,56 @@ volumes:
 - SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
 - список пользователей с правами над таблицами test_db
 
+### Ответ:
+- итоговый список БД после выполнения пунктов выше,
+```
+test_db=# \dt
+          List of relations
+ Schema |  Name   | Type  |  Owner
+--------+---------+-------+----------
+ public | clients | table | postgres
+ public | orders  | table | postgres
+(2 rows)
+```
+- описание таблиц (describe)
+```
+test_db=# \d+ clients
+                                                                   Table "public.clients"
+              Column               |       Type        | Collation | Nullable |               Default               | Storage  | Stats target | Description
+-----------------------------------+-------------------+-----------+----------+-------------------------------------+----------+--------------+-------------
+ id                                | integer           |           | not null | nextval('clients_id_seq'::regclass) | plain    |              |
+ фамилия                    | character varying |           |          |                                     | extended |              |
+ страна проживания | character varying |           |          |                                     | extended |              |
+ заказ                        | integer           |           |          |                                     | plain    |              |
+Foreign-key constraints:
+    "clients_fk" FOREIGN KEY ("заказ") REFERENCES orders(id)
+Access method: heap
+
+test_db=# \d+ orders
+                                                              Table "public.orders"
+          Column          |       Type        | Collation | Nullable |              Default               | Storage  | Stats target | Description
+--------------------------+-------------------+-----------+----------+------------------------------------+----------+--------------+-------------
+ id                       | integer           |           | not null | nextval('orders_id_seq'::regclass) | plain    |              |
+ наименование | character varying |           |          |                                    | extended |              |
+ цена                 | integer           |           |          |                                    | plain    |              |
+Indexes:
+    "orders_pk" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "clients" CONSTRAINT "clients_fk" FOREIGN KEY ("заказ") REFERENCES orders(id)
+Access method: heap
+
+```
+- SQL-запрос для выдачи списка пользователей с правами над таблицами test_db
+```
+
+```
+- список пользователей с правами над таблицами test_db
+```
+
+```
+
+
+
 ## Задача 3
 
 Используя SQL синтаксис - наполните таблицы следующими тестовыми данными:
@@ -85,11 +135,11 @@ volumes:
 
 ### Ответ:
 ```
-test_db=# IINSERT INTO public.orders (наименование,цена) 
+test_db=# INSERT INTO public.orders (наименование,цена) 
   VALUES ('Шоколад',10),('Принтер',3000),('Книга',500),('Монитор',7000),('Гитара',4000);
 INSERT 0 5
  
-test_db=# IINSERT INTO public.clients (фамилия,"страна проживания") VALUES ('Иванов Иван Иванович','USA'),('Петров Петр Петрович','Canada'),('Иоганн Себастьян Бах','Japan'),('Ронни Джеймс Дио','Russia'),('Ritchie Blackmore','Russia');
+test_db=# INSERT INTO public.clients (фамилия,"страна проживания") VALUES ('Иванов Иван Иванович','USA'),('Петров Петр Петрович','Canada'),('Иоганн Себастьян Бах','Japan'),('Ронни Джеймс Дио','Russia'),('Ritchie Blackmore','Russia');
 INSERT 0 5
 
 test_db=# select count(*) from orders;
