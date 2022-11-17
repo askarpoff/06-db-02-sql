@@ -5,6 +5,27 @@
 в который будут складываться данные БД и бэкапы.
 
 Приведите получившуюся команду или docker-compose манифест.
+### Ответ:
+```
+version: '3.8'
+services:
+  db:
+    image: postgres:12-bullseye
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+      - backup:/var/backups
+volumes:
+  db:
+    driver: local
+  backup:
+    driver: local
+```
 
 ## Задача 2
 
